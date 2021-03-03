@@ -66,6 +66,7 @@ export default class GoogleCommand extends ExtendedSlashCommand {
     }
 
     if (pages.length < 1) {
+      channel.send('An error occurred while processing your search, or no results were returned.').then(m => m.delete());
       const embed = new MessageEmbed()
         .setTitle("Search Failed")
         .setDescription(
@@ -82,6 +83,8 @@ export default class GoogleCommand extends ExtendedSlashCommand {
       await channel.send(pages[0]);
       return;
     } else {
+      if (pages[0].description)
+        channel.send(pages[0].description).then((m) => m.delete());
       await paginatedEmbed()
         .setChannel(channel)
         .setEmbeds(pages)
