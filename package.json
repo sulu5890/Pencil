@@ -11,15 +11,15 @@
   "private": true,
   "dependencies": {
     "@sentry/node": "^6.2.1",
-    "discord.js": "^12.5.1",
+    "@sulu5890/paged-embeds": "^0.2.1",
+    "discord.js": "https://github.com/discordjs/discord.js.git",
     "dotenv": "^8.2.0",
     "get-stream": "^6.0.0",
-    "google-it": "^1.6.2",
     "got": "^11.8.2",
     "gunzip-maybe": "^1.4.2",
     "mime-types": "^2.1.29",
     "reflect-metadata": "^0.1.13",
-    "slash-create": "^2.1.0",
+    "slash-create": "https://github.com/Snazzah/slash-create.git",
     "winston": "^3.3.3"
   },
   "devDependencies": {

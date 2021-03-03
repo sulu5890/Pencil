@@ -8,15 +8,20 @@ import * as fs from "fs";
 dotenv.config();
 
 const client = new Client({
+  intents: Intents.ALL,
+  partials: [],
   shards: "auto",
   shardCount: 1,
   messageCacheMaxSize: -1,
   messageCacheLifetime: 120,
   messageSweepInterval: 360,
-  ws: {
-    intents: Intents.ALL,
-  },
 });
+
+declare global {
+  var CLIENT: Client;
+}
+
+global.CLIENT = client;
 
 Sentry.init({
   dsn: process.env.sentry_dsn,
