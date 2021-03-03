@@ -98,10 +98,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.0.0.tgz#2ff674e9611b45b528896d820d3d7a812de2f0e4"
   integrity sha512-FyD2meJpDPjyNQejSjvnhpgI/azsQkA4lGbuu5BQZfjvJ9cbRZXzeWL2HceCekW4lixO9JPesIIQkSoLjeJHNQ==
 
-"@sulu5890/paged-embeds@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@sulu5890/paged-embeds/-/paged-embeds-0.2.1.tgz#ee047b7260e4a3ba7c88eefdcd15a17b62a109ee"
-  integrity sha512-wKQ7BTfcwY6mbDrybvZaWoYGJLlFw0yJX7K9SL+glz1l25csoYGCNgW5HYj6i/0YhZluI+X1vpmR4sZlkjlQEQ==
+"@sulu5890/paged-embeds@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@sulu5890/paged-embeds/-/paged-embeds-1.2.1.tgz#f8a3787593ba019a0954b022c4d331cfe30eefaf"
+  integrity sha512-UJjwojqW6rh5ey9AaqOYOn1J8tGGRhcaiYBOe33Gz0oJhZtTEsjW/9fS1XZnfiQdhHGdp5fJlBrDg90RAF5QSQ==
   dependencies:
     discord.js "^12.0.2"
 

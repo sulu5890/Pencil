@@ -11,7 +11,7 @@
   "private": true,
   "dependencies": {
     "@sentry/node": "^6.2.1",
-    "@sulu5890/paged-embeds": "^0.2.1",
+    "@sulu5890/paged-embeds": "^1.2.1",
     "discord.js": "https://github.com/discordjs/discord.js.git",
     "dotenv": "^8.2.0",
     "get-stream": "^6.0.0",
