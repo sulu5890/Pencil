@@ -88,7 +88,7 @@ export default class GoogleCommand extends ExtendedSlashCommand {
       await paginatedEmbed()
         .setChannel(channel)
         .setEmbeds(pages)
-        .run({ idle: 10000, dispose: true, time: 60000 });
+        .run({ dispose: true, time: 60000 });
       return;
     }
   }
