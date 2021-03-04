@@ -10,11 +10,12 @@ import { Colors } from "../constants/colors";
 const allowedMimeTypes: Array<string> = [
   "application/json",
   "application/gzip",
+  "application/x-sh",
 ];
 
 const mimeIncludes: Array<string> = ["text"];
 
-const allowedFileTypes: Array<string> = ["properties"];
+const allowedFileTypes: Array<string> = ["properties", "bat"];
 
 module.exports = (client: Client) => {
   client.on("message", async (msg) => {
