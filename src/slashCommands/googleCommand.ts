@@ -101,12 +101,12 @@ export default class GoogleCommand extends SlashCommand {
 
     if (pages.length === 1) {
       if (pages[0].description)
-        channel.send(pages[0].description).then((m) => m.delete());
+        channel.send(`<${pages[0].description}>`).then((m) => m.delete());
       await channel.send(pages[0]);
       return;
     } else {
       if (pages[0].description)
-        channel.send(pages[0].description).then((m) => m.delete());
+        channel.send(`<${pages[0].description}>`).then((m) => m.delete());
       await paginatedEmbed()
         .setChannel(channel)
         .setEmbeds(pages)
