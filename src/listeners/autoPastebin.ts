@@ -5,6 +5,8 @@ import got from "got";
 import gunzip from "gunzip-maybe";
 import getStream from "get-stream";
 import { Colors } from "../constants/colors";
+import { PasteggResponse } from "../types/pastegg";
+import { BytebinResponse } from "../types/bytebin"
 
 const allowedMimeTypes: Array<string> = [
   "application/json",
@@ -42,14 +44,14 @@ module.exports = (client: Client) => {
             if (Buffer.byteLength(data) > 1331200) {
               if (Buffer.byteLength(data) < 94371840) {
                 got
-                  .post("https://p.sulu.me/post", {
+                  .post<BytebinResponse>("https://p.sulu.me/post", {
                     body: data,
                   })
                   .then((response) => {
                     msg.channel
                       .send(
                         `https://p.sulu.me/${
-                          JSON.parse(response.body).key
+                          response.body.key
                         }. Your message was too large for paste.gg so it has been uploaded to an alternate pastebin.`
                       )
                       .then((msg) => msg.delete());
@@ -59,7 +61,7 @@ module.exports = (client: Client) => {
                       .setColor(Colors.INFO)
                       .setDescription(
                         `https://p.sulu.me/${
-                          JSON.parse(response.body).key
+                          response.body.key
                         }\nYour message was too large for paste.gg so it has been uploaded to an alternate pastebin.`
                       )
                       .setFooter(
@@ -98,10 +100,10 @@ module.exports = (client: Client) => {
               }
             } else {
               got
-                .post("https://api.paste.gg/v1/pastes", {
+                .post<PasteggResponse>("https://api.paste.gg/v1/pastes", {
                   json: {
                     name: `${atc.name ?? "Uploaded file"} by ${msg.author.tag}`,
-                    description: `Automatically generated paste from uploaded content sent by ${
+                    description: `Automatically generated paste from uploaded content in message sent by ${
                       msg.author.tag
                     } (${msg.author.id}) in ${
                       msg.guild?.name ?? "a direct message"
@@ -120,24 +122,22 @@ module.exports = (client: Client) => {
                   headers: {
                     "Content-Type": "application/json",
                     Authorization: `Key ${process.env.PASTE_GG_API_KEY}`,
-                    "User-Agent": "Pencil <sulu@sulu.me>",
+                    "User-Agent": "Pencil <sulu+pencil@sulu.me>",
                     Accept: "application/json",
                   },
                 })
-                .then((response) => {
+                .then((r) => {
                   msg.channel
                     .send(
-                      // @ts-ignore
-                      `https://paste.gg/PasteBot/${response.body.result.id}`
+                      `https://paste.gg/Pencil/${r.body.result.id}`
                     )
                     .then((msg) => msg.delete());
-
                   const embed = new MessageEmbed()
                     .setAuthor(atc.name ?? "Pastebin")
                     .setColor(Colors.INFO)
                     .setDescription(
                       // @ts-ignore
-                      `https://paste.gg/PasteBot/${response.body.result.id}`
+                      `https://paste.gg/Pencil/${r.body.result.id}`
                     )
                     .setFooter(
                       `Requested by ${
