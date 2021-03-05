@@ -1,3 +1,3 @@
 export interface BytebinResponse {
-    key: string
+  key: string;
 }

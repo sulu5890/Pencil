@@ -68,13 +68,12 @@ export default class GoogleCommand extends SlashCommand {
         .setDescription(`${r[i].url}\n\n${r[i].desc}`)
         .setURL(r[i].url)
         .setColor(Colors.INFO)
-          .setFooter(
-              `Requested by ${
-                  ctx.member?.nick ??
-                  ctx.user.username + "#" + ctx.user.discriminator
-              } - result ${i+1} of ${r.length}`,
-              ctx.user.avatarURL
-          )
+        .setFooter(
+          `Requested by ${
+            ctx.member?.nick ?? ctx.user.username + "#" + ctx.user.discriminator
+          } - result ${i + 1} of ${r.length}`,
+          ctx.user.avatarURL
+        )
         .setThumbnail(
           `https://favicon.sulu.me/icon.png?url=${r[i].url
             .split("/")

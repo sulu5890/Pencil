@@ -6,7 +6,7 @@ import gunzip from "gunzip-maybe";
 import getStream from "get-stream";
 import { Colors } from "../constants/colors";
 import { PasteggResponse } from "../types/pastegg";
-import { BytebinResponse } from "../types/bytebin"
+import { BytebinResponse } from "../types/bytebin";
 
 const allowedMimeTypes: Array<string> = [
   "application/json",
@@ -50,9 +50,7 @@ module.exports = (client: Client) => {
                   .then((response) => {
                     msg.channel
                       .send(
-                        `https://p.sulu.me/${
-                          response.body.key
-                        }. Your message was too large for paste.gg so it has been uploaded to an alternate pastebin.`
+                        `https://p.sulu.me/${response.body.key}. Your message was too large for paste.gg so it has been uploaded to an alternate pastebin.`
                       )
                       .then((msg) => msg.delete());
 
@@ -60,9 +58,7 @@ module.exports = (client: Client) => {
                       .setAuthor(atc.name ?? "Pastebin")
                       .setColor(Colors.INFO)
                       .setDescription(
-                        `https://p.sulu.me/${
-                          response.body.key
-                        }\nYour message was too large for paste.gg so it has been uploaded to an alternate pastebin.`
+                        `https://p.sulu.me/${response.body.key}\nYour message was too large for paste.gg so it has been uploaded to an alternate pastebin.`
                       )
                       .setFooter(
                         `Requested by ${
@@ -128,15 +124,12 @@ module.exports = (client: Client) => {
                 })
                 .then((r) => {
                   msg.channel
-                    .send(
-                      `https://paste.gg/Pencil/${r.body.result.id}`
-                    )
+                    .send(`https://paste.gg/Pencil/${r.body.result.id}`)
                     .then((msg) => msg.delete());
                   const embed = new MessageEmbed()
                     .setAuthor(atc.name ?? "Pastebin")
                     .setColor(Colors.INFO)
                     .setDescription(
-                      // @ts-ignore
                       `https://paste.gg/Pencil/${r.body.result.id}`
                     )
                     .setFooter(
