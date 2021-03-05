@@ -1,5 +1,4 @@
 import * as dotenv from "dotenv";
-import * as Sentry from "@sentry/node";
 import { GatewayServer, SlashCreator } from "slash-create";
 
 import { Client, Intents, WSEventType } from "discord.js";
@@ -22,11 +21,6 @@ declare global {
 }
 
 global.CLIENT = client;
-
-Sentry.init({
-  dsn: process.env.sentry_dsn,
-  tracesSampleRate: 1.0,
-});
 
 const creator = new SlashCreator({
   applicationID: process.env.DISCORD_APPLICATION_ID ?? "",

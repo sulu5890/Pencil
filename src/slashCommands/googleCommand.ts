@@ -1,11 +1,23 @@
-import { CommandContext, CommandOptionType, SlashCreator } from "slash-create";
-import { ExtendedSlashCommand } from "../util/ExtendedSlashCommand";
+import {
+  CommandContext,
+  CommandOptionType,
+  SlashCommand,
+  SlashCreator,
+} from "slash-create";
 import { Client, MessageEmbed, TextChannel } from "discord.js";
 import { paginatedEmbed } from "../util/EmbedUtil";
 import { Colors } from "../constants/colors";
 import got from "got";
 
-export default class GoogleCommand extends ExtendedSlashCommand {
+export type GoogleResults = [
+  {
+    title: string;
+    url: string;
+    desc: string;
+  }
+];
+
+export default class GoogleCommand extends SlashCommand {
   client: Client;
   constructor(client: Client, creator: SlashCreator) {
     super(creator, {
@@ -37,7 +49,7 @@ export default class GoogleCommand extends ExtendedSlashCommand {
 
     let pages: Array<MessageEmbed> = [];
 
-    const response: any = await got.get(
+    const response = await got.get<GoogleResults>(
       `https://google.sulu.me/results.json?term=${ctx.options.term}`,
       {
         headers: {
@@ -53,10 +65,16 @@ export default class GoogleCommand extends ExtendedSlashCommand {
     for (let i = 0; i < r.length; i++) {
       pages[i] = new MessageEmbed()
         .setTitle(r[i].title)
-        .setAuthor(`Search Result ${i + 1} of ${r.length}`)
         .setDescription(`${r[i].url}\n\n${r[i].desc}`)
         .setURL(r[i].url)
         .setColor(Colors.INFO)
+          .setFooter(
+              `Requested by ${
+                  ctx.member?.nick ??
+                  ctx.user.username + "#" + ctx.user.discriminator
+              } - result ${i+1} of ${r.length}`,
+              ctx.user.avatarURL
+          )
         .setThumbnail(
           `https://favicon.sulu.me/icon.png?url=${r[i].url
             .split("/")
@@ -66,7 +84,11 @@ export default class GoogleCommand extends ExtendedSlashCommand {
     }
 
     if (pages.length < 1) {
-      channel.send('An error occurred while processing your search, or no results were returned.').then(m => m.delete());
+      channel
+        .send(
+          "An error occurred while processing your search, or no results were returned."
+        )
+        .then((m) => m.delete());
       const embed = new MessageEmbed()
         .setTitle("Search Failed")
         .setDescription(
@@ -88,7 +110,7 @@ export default class GoogleCommand extends ExtendedSlashCommand {
       await paginatedEmbed()
         .setChannel(channel)
         .setEmbeds(pages)
-        .run({ dispose: true, time: 60000, idle: 7500 });
+        .run({ dispose: true, idle: 7500 });
       return;
     }
   }

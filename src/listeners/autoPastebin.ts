@@ -4,7 +4,6 @@ import { lookup } from "mime-types";
 import got from "got";
 import gunzip from "gunzip-maybe";
 import getStream from "get-stream";
-import * as Sentry from "@sentry/node";
 import { Colors } from "../constants/colors";
 
 const allowedMimeTypes: Array<string> = [
@@ -148,14 +147,13 @@ module.exports = (client: Client) => {
                       msg.author.displayAvatarURL({ dynamic: true })
                     )
                     .setTimestamp();
-
                   return msg.channel.send(embed);
                 });
             }
           })
-          .catch((e) => Sentry.captureException(e));
+          .catch((e) => logger.getLogger().error(e));
       } catch (e) {
-        Sentry.captureException(e);
+        logger.getLogger().error(e);
       }
     }
   });
