@@ -32,8 +32,8 @@ export default class GoogleCommand extends SlashCommand {
         },
       ],
       throttling: {
-        duration: 20,
-        usages: 2,
+        duration: 60,
+        usages: 3,
       },
     });
 
@@ -41,6 +41,10 @@ export default class GoogleCommand extends SlashCommand {
   }
 
   async run(ctx: CommandContext) {
+    if (!ctx.guildID) {
+      await ctx.send("Due to abuse, google is no longer supported in direct messages.");
+      return;
+    }
     await ctx.acknowledge(true);
 
     const channel = (await global.CLIENT.channels.fetch(
