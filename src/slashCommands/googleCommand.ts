@@ -8,6 +8,7 @@ import { Client, MessageEmbed, TextChannel } from "discord.js";
 import { paginatedEmbed } from "../util/EmbedUtil";
 import { Colors } from "../constants/colors";
 import got from "got";
+import * as crypto from "crypto";
 
 export type GoogleResults = [
   {
@@ -42,7 +43,9 @@ export default class GoogleCommand extends SlashCommand {
 
   async run(ctx: CommandContext) {
     if (!ctx.guildID) {
-      await ctx.send("Due to abuse, google is no longer supported in direct messages.");
+      await ctx.send(
+        "Due to abuse, google is no longer supported in direct messages."
+      );
       return;
     }
     await ctx.acknowledge(true);
@@ -67,6 +70,13 @@ export default class GoogleCommand extends SlashCommand {
     const r = response.body;
 
     for (let i = 0; i < r.length; i++) {
+      const baseUrl = r[i].url.split("/").splice(0, 3).join("/");
+
+      const faviconKey = crypto
+        .createHmac("blake2s256", process.env.FAVICON_KEY ?? "change this")
+        .update(baseUrl)
+        .digest("hex");
+
       pages[i] = new MessageEmbed()
         .setTitle(r[i].title)
         .setDescription(`${r[i].url}\n\n${r[i].desc}`)
@@ -79,10 +89,7 @@ export default class GoogleCommand extends SlashCommand {
           ctx.user.avatarURL
         )
         .setThumbnail(
-          `https://favicon.sulu.me/icon.png?url=${r[i].url
-            .split("/")
-            .splice(0, 3)
-            .join("/")}`
+          `https://favicon.sulu.me/icon.png?url=${baseUrl}&key=${faviconKey}`
         );
     }
 
